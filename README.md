@@ -76,6 +76,7 @@ Here is a 10-step program for getting your surveillance system uploading to slac
    permissions.
 9. Go back to your Slack Chat App (you're all done setting up ), and in the channel you 
    created in step 1, type `/invite @your-bot-name`.
+10. There is no step 10. You're done.
 
 That's it; you're ready to go.
 
