@@ -1,0 +1,17 @@
+# This is the camera source, usually an rtsp url
+netcam_url rtsp://camera_user:camera_pass@camera_host:554/videoMain
+
+# The ID to use for this camera. Impacts the streaming url,
+# ie: http://localhost:8081/1 for camera 1
+camera_id 1
+
+# Human friendly name for the camera
+camera_name front
+
+# An optional mask file allows you to mask off areas of the camera feed
+# to avoid false positives. Portable gray format. Gimp can make it.
+mask_file /opt/motion_configs/cameras/camera_1_mask.pgm
+
+
+# See https://motion-project.github.io/4.3.2/motion_config.html
+# for more details

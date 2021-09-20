@@ -1,0 +1,17 @@
+# Copyright 2021 ArmyOfEvilRobots. All rights reserved.
+version: '2'
+services:
+  motion-quidnunc:
+    build: .
+    image: motion-quidnunc:latest
+    ports:
+      - "8081:8081"
+    environment:
+      - SLACK_CHANNELS
+      - SLACK_OAUTH_BEARER
+      - SLACK_NOTIFY_WEBHOOK
+    volumes:
+      - ./motion_configs:/opt/motion_configs
+      - ./motion_scripts:/opt/motion_scripts
+      - ./motion_video:/opt/motion_video
+      - ./motion_logs:/var/log/motion
