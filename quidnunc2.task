@@ -1,0 +1,102 @@
+job "quidnunc2" {
+  datacenters = ["aoer1"]
+  type        = "service"
+
+  group "quidnunc2" {
+    count = 1
+    network {
+      mode = "host"
+      port "video" {
+        static = 8081
+        to = 8081
+      }
+    }
+
+
+    restart {
+      attempts = 10
+      interval = "5m"
+      delay    = "25s"
+      mode     = "delay"
+    }
+
+    task "quidnunc2" {
+      driver = "docker"
+
+
+      env {
+	SLACK_NOTIFY_WEBHOOK="FOO"
+	SLACK_CHANNELS="BAR"
+	SLACK_OAUTH_BEARER="BAZ"
+      }
+
+      config {
+        image = "489816546912.dkr.ecr.us-east-2.amazonaws.com/quidnunc2:latest"
+
+       #port_map {
+       #   video = 8081
+       # }
+       ports = ["video"]
+
+	  mount {
+	    type = "bind"
+	    target = "/opt/motion_configs"
+	    source = "/opt/quidnunc2/configs"
+	    readonly = false
+	    bind_options {
+	      propagation = "rshared"
+	    }
+	  }
+	  mount {
+	    type = "bind"
+	    target = "/opt/motion_scripts"
+	    source = "/opt/quidnunc2/scripts"
+	    readonly = false
+	    bind_options {
+	      propagation = "rshared"
+	    }
+	  }
+	  mount {
+	    type = "bind"
+	    target = "/opt/motion_video"
+	    source = "/opt/quidnunc2/video"
+	    readonly = false
+	    bind_options {
+	      propagation = "rshared"
+	    }
+	  }
+	  mount {
+	    type = "bind"
+	    target = "/var/log/motion"
+	    source = "/opt/quidnunc2/logs"
+	    readonly = false
+	    bind_options {
+	      propagation = "rshared"
+	    }
+	  }
+
+	
+
+
+      }
+
+      resources {
+        cpu    = 2048
+        memory = 1024
+
+      }
+
+      service {
+        name = "quidnunc2"
+        port = "video"
+
+        check {
+          type     = "tcp"
+          interval = "10s"
+          timeout  = "2s"
+        }
+      }
+    }
+  }
+}
+
